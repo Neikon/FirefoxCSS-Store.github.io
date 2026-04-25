@@ -401,9 +401,11 @@ select {
 
 .theme-actions,
 .detail-actions {
+  align-self: start;
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  align-items: center;
 }
 
 .theme-actions a:first-child,
