@@ -26,7 +26,7 @@ jobs:
 
       - run: npm ci
 
-      - name: Audit published theme repositories
+      - name: Audit published and archived theme repositories
         env:
           GITHUB_TOKEN: ${{ github.token }}
           RETIREMENT_REPORT: theme-repository-audit.md
@@ -50,7 +50,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -B "$branch"
-          git add src/content/themes theme-repository-audit.md
+          git add src/content/themes
           git commit -m "chore: propose theme repository audit changes"
           git fetch --no-tags --depth=1 origin "$branch:refs/remotes/origin/$branch" || true
           git push --force-with-lease origin "$branch"

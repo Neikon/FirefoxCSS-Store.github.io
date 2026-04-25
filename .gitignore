@@ -50,6 +50,9 @@ Icon?
 /.astro/
 /build/
 
+# Generated workflow reports
+/theme-repository-audit.md
+
 # Coverage directory used by tools like istanbul
 coverage/
 

@@ -142,13 +142,13 @@ function renderReport(archiveMoves, removals, skipped, checkedAt) {
     '',
     'This PR was generated automatically for maintainer review.',
     '',
-    '- Repositories that still exist but are archived are moved to the public archive as unsupported themes.',
-    '- Repositories that no longer exist or are inaccessible are removed from the catalog.',
+    '- Published repositories that still exist but are archived are moved to the public archive as unsupported themes.',
+    '- Published or archived repositories that no longer exist or are inaccessible are removed from the catalog.',
     ''
   ]
 
   if (archiveMoves.length === 0 && removals.length === 0) {
-    lines.push('No published themes need archive or removal changes.')
+    lines.push('No published or archived themes need archive or removal changes.')
   } else {
     if (archiveMoves.length > 0) {
       lines.push('## Proposed Archive Moves', '')
@@ -164,6 +164,7 @@ function renderReport(archiveMoves, removals, skipped, checkedAt) {
       for (const item of removals) {
         lines.push(`- **${item.title}** (${item.slug})`)
         lines.push(`  - Repository: ${item.repository}`)
+        lines.push(`  - Current status: ${item.status}`)
         lines.push(`  - Details: ${item.details}`)
       }
     }
@@ -188,12 +189,13 @@ const files = (await fs.readdir(themesDir)).filter((file) => file.endsWith('.jso
 const archiveMoves = []
 const removals = []
 const skipped = []
+const auditableStatuses = new Set(['published', 'archived'])
 
 for (const file of files) {
   const filePath = path.join(themesDir, file)
   const theme = JSON.parse(await fs.readFile(filePath, 'utf8'))
 
-  if (theme.status !== 'published') continue
+  if (!auditableStatuses.has(theme.status)) continue
 
   try {
     const result = await inspectRepository(theme.repository)
@@ -210,9 +212,15 @@ for (const file of files) {
         title: theme.title,
         slug: theme.slug,
         repository: theme.repository,
+        status: theme.status,
         details: retirement.details
       })
       console.log(`REMOVE ${theme.slug}: ${retirement.reason}`)
+      continue
+    }
+
+    if (theme.status === 'archived') {
+      console.log(`OK ${theme.slug}: already archived`)
       continue
     }
 

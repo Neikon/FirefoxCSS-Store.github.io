@@ -19,7 +19,7 @@ This file stores durable project context so future conversations can resume work
 - Build system: Astro + TypeScript
 - Theme validation script: `scripts/validate-themes.mjs`
 - Repository metadata refresh script: `scripts/refresh-theme-stats.mjs`; it only enriches repositories already present in submitted theme entries
-- Monthly repository audit script: `scripts/audit-theme-repositories.mjs`; it only checks repositories already present in submitted theme entries
+- Monthly repository audit script: `scripts/audit-theme-repositories.mjs`; it only checks repositories already present in submitted theme entries, including archived entries so deleted archived repositories can still be proposed for removal
 - Dev container config: `.devcontainer/devcontainer.json`
 - Devcontainer bootstrap script: `.devcontainer/post-create.sh`
 - Devcontainer automation runs `.devcontainer/post-create.sh` from `postCreateCommand` to install project dependencies after container creation/rebuild
@@ -66,7 +66,7 @@ This file stores durable project context so future conversations can resume work
 
 - Decap CMS Open Authoring may require GitHub OAuth/back-end setup before the hosted `/admin/` flow is usable in production
 - `scripts/refresh-theme-stats.mjs` uses external APIs when run manually or in future automation; it should never discover new repositories
-- `.github/workflows/audit-theme-repositories.yml` runs monthly and creates a PR when repositories should be archived or removed; if `GITHUB_TOKEN` is blocked from creating PRs, it still pushes the audit branch and reports a manual PR URL. Automatic PR creation requires enabling the repository's "Allow GitHub Actions to create and approve pull requests" setting or adding an `AUDIT_PR_TOKEN` secret with PR creation permission.
+- `.github/workflows/audit-theme-repositories.yml` runs monthly and creates a PR when repositories should be archived or removed; it audits both `published` and `archived` entries, but only `published` entries are moved into the archive. If an archived entry later becomes unavailable, it is proposed for removal. If `GITHUB_TOKEN` is blocked from creating PRs, it still pushes the audit branch and reports a manual PR URL. Automatic PR creation requires enabling the repository's "Allow GitHub Actions to create and approve pull requests" setting or adding an `AUDIT_PR_TOKEN` secret with PR creation permission.
 - Existing legacy theme entries are marked with `submitterRole: "legacy"` because original submitter relationship is unknown
 
 ## Working Agreement For Future Sessions
