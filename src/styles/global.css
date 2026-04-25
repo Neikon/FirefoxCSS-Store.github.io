@@ -339,12 +339,15 @@ select {
 }
 
 .theme-tags {
+  align-self: start;
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  align-items: center;
 }
 
 .theme-tags span {
+  flex: 0 0 auto;
   display: inline-flex;
   align-items: center;
   min-height: 24px;
