@@ -28,6 +28,7 @@ This file stores durable project context so future conversations can resume work
 ## Automation Context
 
 - Active rebuild branch for the community hub: `rebuild-astro-community-hub`
+- Fork deployment config currently targets `Neikon/FirefoxCSS-Store.github.io` as a GitHub Pages project site
 - Existing GitHub Actions:
 - `.github/workflows/build.yml`
 - `.github/workflows/check-themes.yml`
@@ -40,6 +41,7 @@ This file stores durable project context so future conversations can resume work
 
 - Local `.codex` file is ignored in `.gitignore`
 - Build workflow now deploys the Astro `dist/` artifact to GitHub Pages and does not commit generated files back to the branch
+- Fork-specific values to revert before merging upstream: `astro.config.mjs` uses `site: https://neikon.github.io` and `base: /FirefoxCSS-Store.github.io`; `public/admin/config.yml` uses `backend.repo: Neikon/FirefoxCSS-Store.github.io`; `src/layouts/BaseLayout.astro` links to the fork repo
 - Pull requests touching catalog or site files trigger validation via `npm test` and `npm run build`
 - Site pages are authored as Astro routes in `src/pages/`
 - Client behavior for catalog search/filter/sort is implemented in `src/scripts/hub.ts`

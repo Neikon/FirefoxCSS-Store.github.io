@@ -52,3 +52,25 @@ npm run build
 ```
 
 The production workflow builds Astro into `dist/` and deploys that artifact to GitHub Pages. Generated site files are not committed back to the repository.
+
+## Fork Deployment Notes
+
+This branch is currently configured to run as a GitHub Pages project site from the fork:
+
+- `astro.config.mjs`
+  - `site: "https://neikon.github.io"`
+  - `base: "/FirefoxCSS-Store.github.io"`
+- `public/admin/config.yml`
+  - `backend.repo: "Neikon/FirefoxCSS-Store.github.io"`
+- `src/layouts/BaseLayout.astro`
+  - GitHub navigation link points to `https://github.com/Neikon/FirefoxCSS-Store.github.io`
+
+When this work is moved back to the original organization repository, update those values to:
+
+- `astro.config.mjs`
+  - `site: "https://firefoxcss-store.github.io"`
+  - remove `base` if the site is served from the domain root
+- `public/admin/config.yml`
+  - `backend.repo: "FirefoxCSS-Store/FirefoxCSS-Store.github.io"`
+- `src/layouts/BaseLayout.astro`
+  - GitHub navigation link should point back to `https://github.com/FirefoxCSS-Store/FirefoxCSS-Store.github.io`

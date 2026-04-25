@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import { formatDate, isPublishedTheme, repositoryLabel } from '../../lib/themes'
+import { formatDate, isPublishedTheme, repositoryLabel, withBasePath } from '../../lib/themes'
 
 export async function getStaticPaths() {
   const themes = (await getCollection('themes')).filter(isPublishedTheme)
@@ -19,7 +19,7 @@ const repoLabel = repositoryLabel(data.repository)
 <BaseLayout title={`${data.title} | FirefoxCSS Hub`} description={data.description}>
   <main class="theme-detail">
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href="/">Themes</a>
+      <a href={withBasePath('/')}>Themes</a>
       <span>{data.title}</span>
     </nav>
 
@@ -55,7 +55,7 @@ const repoLabel = repositoryLabel(data.repository)
 
     <section class="screenshot-gallery" aria-label={`${data.title} screenshots`}>
       {data.screenshots.map((screenshot) => (
-        <img src={screenshot.src} alt={screenshot.alt} loading="lazy" />
+        <img src={withBasePath(screenshot.src)} alt={screenshot.alt} loading="lazy" />
       ))}
     </section>
 

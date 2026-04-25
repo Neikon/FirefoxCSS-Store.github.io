@@ -1,6 +1,6 @@
 backend:
   name: github
-  repo: FirefoxCSS-Store/FirefoxCSS-Store.github.io
+  repo: Neikon/FirefoxCSS-Store.github.io
   branch: main
   open_authoring: true
 

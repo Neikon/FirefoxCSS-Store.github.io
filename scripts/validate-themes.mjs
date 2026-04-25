@@ -20,7 +20,7 @@ const themeSchema = z.object({
   repository: z.url(),
   homepage: z.url().optional(),
   screenshots: z.array(z.object({
-    src: z.string().startsWith('/assets/img/themes/'),
+    src: z.string().startsWith('/assets/img/themes/').refine((value) => !value.includes('//'), 'Path must not contain duplicate slashes'),
     alt: z.string().min(2).max(120)
   })).min(1),
   tags: z.array(tagSchema).min(1).max(24),

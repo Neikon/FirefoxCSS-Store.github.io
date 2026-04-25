@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
-import { byLatestCatalogEntry, formatDate, isPublishedTheme, repositoryLabel } from '../lib/themes'
+import { byLatestCatalogEntry, formatDate, isPublishedTheme, repositoryLabel, withBasePath } from '../lib/themes'
 
 const themes = (await getCollection('themes'))
   .filter(isPublishedTheme)
@@ -38,7 +38,7 @@ const totalStars = themes.reduce((total, theme) => total + theme.data.stats.star
           <option value="name">Name</option>
         </select>
       </label>
-      <a class="submit-link" href="/submit/">Submit a theme</a>
+      <a class="submit-link" href={withBasePath('/submit/')}>Submit a theme</a>
     </section>
 
     <section class="tag-strip" aria-label="Filter by tag">
@@ -67,12 +67,12 @@ const totalStars = themes.reduce((total, theme) => total + theme.data.stats.star
             data-updated={data.stats.updatedAt ?? ''}
             data-index={data.catalogIndex}
           >
-            <a class="theme-card-image" href={`/themes/${data.slug}/`} aria-label={`Open ${data.title}`}>
-              <img src={image.src} alt={image.alt} loading="lazy" />
+            <a class="theme-card-image" href={withBasePath(`/themes/${data.slug}/`)} aria-label={`Open ${data.title}`}>
+              <img src={withBasePath(image.src)} alt={image.alt} loading="lazy" />
             </a>
             <div class="theme-card-body">
               <div>
-                <h2><a href={`/themes/${data.slug}/`}>{data.title}</a></h2>
+                <h2><a href={withBasePath(`/themes/${data.slug}/`)}>{data.title}</a></h2>
                 <p>{data.description}</p>
               </div>
               <div class="theme-tags" aria-label={`${data.title} tags`}>
@@ -89,7 +89,7 @@ const totalStars = themes.reduce((total, theme) => total + theme.data.stats.star
                 </div>
               </dl>
               <div class="theme-actions">
-                <a href={`/themes/${data.slug}/`}>Details</a>
+                <a href={withBasePath(`/themes/${data.slug}/`)}>Details</a>
                 <a href={data.repository}>Repository</a>
               </div>
             </div>

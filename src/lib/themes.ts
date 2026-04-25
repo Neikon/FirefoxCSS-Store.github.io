@@ -26,6 +26,15 @@ export function repositoryLabel(repository: string) {
   return `${url.hostname.replace(/^www\./, '')}/${path}`
 }
 
+export function withBasePath(path: string) {
+  if (/^https?:\/\//.test(path)) return path
+
+  const base = import.meta.env.BASE_URL
+  if (base === '/') return path
+
+  return `${base.replace(/\/$/, '')}/${path.replace(/^\//, '')}`
+}
+
 export function publicTheme(theme: Theme) {
   const { data } = theme
 
@@ -35,7 +44,10 @@ export function publicTheme(theme: Theme) {
     description: data.description,
     repository: data.repository,
     homepage: data.homepage ?? null,
-    screenshots: data.screenshots,
+    screenshots: data.screenshots.map((screenshot) => ({
+      ...screenshot,
+      src: withBasePath(screenshot.src)
+    })),
     tags: data.tags,
     submitterRole: data.submitterRole,
     status: data.status,
