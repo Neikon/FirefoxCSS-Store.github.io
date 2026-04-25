@@ -13,9 +13,6 @@ on:
       - 'package-lock.json'
       - '.github/workflows/**'
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
-
 jobs:
   validate_pull_requests:
     runs-on: ubuntu-latest
