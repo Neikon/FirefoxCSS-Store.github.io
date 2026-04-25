@@ -76,9 +76,11 @@ jobs:
           GH_TOKEN: ${{ secrets.SUBMISSION_PR_TOKEN || github.token }}
           ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
           ISSUE_AUTHOR: ${{ steps.issue.outputs.author }}
+          SUBMISSION_REVIEWERS: ${{ vars.SUBMISSION_REVIEWERS || 'Neikon' }}
         shell: bash
         run: |
           branch="submissions/theme-${ISSUE_NUMBER}"
+          reviewers="${SUBMISSION_REVIEWERS:-Neikon}"
 
           if [ -z "$(git status --porcelain -- src/content/themes public/assets/img/themes)" ]; then
             echo "No theme submission changes were generated."
@@ -100,6 +102,7 @@ jobs:
             gh pr edit "$branch" \
               --title "$title" \
               --body-file theme-submission-pr.md
+            gh pr edit "$branch" --add-reviewer "$reviewers" || true
             echo "Updated theme submission PR: ${pr_url}" >> "$GITHUB_STEP_SUMMARY"
           else
             if pr_url="$(gh pr create \
@@ -107,6 +110,7 @@ jobs:
               --head "$branch" \
               --title "$title" \
               --body-file theme-submission-pr.md 2>pr-create-error.txt)"; then
+              gh pr edit "$branch" --add-reviewer "$reviewers" || true
               echo "Created theme submission PR: ${pr_url}" >> "$GITHUB_STEP_SUMMARY"
             else
               echo "::warning::The submission branch was pushed, but GitHub refused to create the PR automatically."

@@ -42,7 +42,7 @@ Community submissions use the `Submit a theme` GitHub Issue Form. When a complet
 - validate the catalog with `npm test` and `npm run build`;
 - open or update a review pull request from a `submissions/theme-<issue-number>` branch.
 
-The generated entry remains `status: "candidate"` until a maintainer reviews it and intentionally publishes it.
+The generated entry remains `status: "candidate"` until a maintainer approves the submission PR. Approval runs `.github/workflows/publish-approved-theme-submission.yml`, which switches the entry to `status: "published"` and assigns the next available `catalogIndex`. Maintainers still merge the PR explicitly after checks pass.
 
 ## Metadata Refresh
 
