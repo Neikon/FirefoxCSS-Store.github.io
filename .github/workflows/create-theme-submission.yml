@@ -80,7 +80,7 @@ jobs:
         run: |
           branch="submissions/theme-${ISSUE_NUMBER}"
 
-          if git diff --quiet -- src/content/themes public/assets/img/themes; then
+          if [ -z "$(git status --porcelain -- src/content/themes public/assets/img/themes)" ]; then
             echo "No theme submission changes were generated."
             exit 0
           fi
