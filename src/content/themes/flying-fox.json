@@ -1,0 +1,26 @@
+{
+  "title": "Flying Fox",
+  "slug": "flying-fox",
+  "description": "An opinionated set of configurations for firefox with Material Fox, github-moonlight userstyle",
+  "repository": "https://github.com/akshat46/FlyingFox",
+  "screenshots": [
+    {
+      "src": "/assets/img/themes/flying.webp",
+      "alt": "Flying Fox screenshot"
+    }
+  ],
+  "tags": [
+    "akshat46",
+    "material",
+    "moonlight"
+  ],
+  "submitterRole": "legacy",
+  "status": "published",
+  "catalogIndex": 18,
+  "stats": {
+    "stars": 1602,
+    "updatedAt": "2023-04-11T07:11:04Z",
+    "ownerAvatar": "https://avatars.githubusercontent.com/u/7402043?v=4",
+    "accessible": true
+  }
+}

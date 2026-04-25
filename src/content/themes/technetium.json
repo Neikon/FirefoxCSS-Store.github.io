@@ -1,0 +1,30 @@
+{
+  "title": "Technetium",
+  "slug": "technetium",
+  "description": "A focused approach to taming the new Firefox Proton interface, restituting some of the beloved elements retired alongside the old Photon UI - menu icons and much more \n Compatibility: V89+",
+  "repository": "https://github.com/edo0/Technetium",
+  "screenshots": [
+    {
+      "src": "/assets/img/themes/Technetium.webp",
+      "alt": "Technetium screenshot"
+    }
+  ],
+  "tags": [
+    "compact",
+    "dark",
+    "edo0",
+    "light",
+    "rounded",
+    "squared",
+    "v89"
+  ],
+  "submitterRole": "legacy",
+  "status": "published",
+  "catalogIndex": 39,
+  "stats": {
+    "stars": 89,
+    "updatedAt": "2022-02-13T15:22:08Z",
+    "ownerAvatar": "https://avatars.githubusercontent.com/u/16632292?v=4",
+    "accessible": true
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "title": "zap's cool photon theme",
+  "slug": "zap-s-cool-photon-theme",
+  "description": "Party like it's Firefox 57-88!",
+  "repository": "https://github.com/zapSNH/zapsCoolPhotonTheme",
+  "screenshots": [
+    {
+      "src": "/assets/img/themes/zaps-photon.webp",
+      "alt": "zap's cool photon theme screenshot"
+    }
+  ],
+  "tags": [
+    "compact",
+    "photon",
+    "quantum",
+    "squared"
+  ],
+  "submitterRole": "legacy",
+  "status": "published",
+  "catalogIndex": 80,
+  "stats": {
+    "stars": 138,
+    "updatedAt": "2026-03-20T01:02:26Z",
+    "ownerAvatar": "https://avatars.githubusercontent.com/u/134786889?v=4",
+    "accessible": true
+  }
+}

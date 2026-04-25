@@ -4,14 +4,13 @@ on:
   pull_request:
     branches: [ main ]
     paths:
-      - 'dev/**'
-      - 'images/**'
-      - 'themes.json'
-      - 'gulpfile.js'
-      - 'gulpconfig.js'
+      - 'src/**'
+      - 'public/**'
+      - 'scripts/**'
+      - 'astro.config.mjs'
+      - 'tsconfig.json'
       - 'package.json'
       - 'package-lock.json'
-      - 'dev/config/**'
       - '.github/workflows/**'
 
 env:

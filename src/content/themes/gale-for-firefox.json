@@ -1,0 +1,30 @@
+{
+  "title": "gale for Firefox",
+  "slug": "gale-for-firefox",
+  "description": "My CSS files to use with Firefox and Sidebery",
+  "repository": "https://github.com/mgastonportillo/gale-for-ff",
+  "screenshots": [
+    {
+      "src": "/assets/img/themes/8988rjy7uTd.webp",
+      "alt": "gale for Firefox screenshot"
+    }
+  ],
+  "tags": [
+    "adaptive",
+    "autohide",
+    "compact",
+    "dark",
+    "gale",
+    "minimalistic",
+    "sidebar"
+  ],
+  "submitterRole": "legacy",
+  "status": "published",
+  "catalogIndex": 68,
+  "stats": {
+    "stars": 122,
+    "updatedAt": "2024-09-22T14:15:06Z",
+    "ownerAvatar": "https://avatars.githubusercontent.com/u/106234166?v=4",
+    "accessible": true
+  }
+}

@@ -1,0 +1,42 @@
+---
+import '../styles/global.css'
+import { withBasePath } from '../lib/themes'
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const {
+  title = 'FirefoxCSS Hub',
+  description = 'A community hub for discovering and sharing Firefox userChrome.css themes.'
+} = Astro.props
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" href={withBasePath('/icon.png')} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href={withBasePath('/')} aria-label="FirefoxCSS Hub home">
+        <img src={withBasePath('/icon.png')} alt="" width="36" height="36" />
+        <span>FirefoxCSS Hub</span>
+      </a>
+      <nav class="site-nav" aria-label="Primary">
+        <a href={withBasePath('/')}>Themes</a>
+        <a href={withBasePath('/submit/')}>Submit</a>
+        <a href="https://github.com/Neikon/FirefoxCSS-Store.github.io">GitHub</a>
+      </nav>
+    </header>
+    <slot />
+    <footer class="site-footer">
+      <p>Community submissions point to their original repositories. Theme authors keep ownership of their work.</p>
+    </footer>
+  </body>
+</html>
