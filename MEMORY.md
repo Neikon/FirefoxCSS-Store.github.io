@@ -67,6 +67,7 @@ This file stores durable project context so future conversations can resume work
 - Each published theme gets a `/themes/[slug]/` detail page and the site also generates `/themes.json`
 - Archived-but-existing repositories are preserved under `/archive/` with unsupported messaging; unavailable/deleted repositories are proposed for removal by PR
 - New theme submissions come through the `Submit a theme` GitHub Issue Form; automation turns them into `candidate` PRs, and they become public only after human review
+- Theme submission and approval automation populates basic repository stats for submitted repositories, reusing the same provider logic as `npm run refresh:themes`
 
 ## Known Technical Risks
 

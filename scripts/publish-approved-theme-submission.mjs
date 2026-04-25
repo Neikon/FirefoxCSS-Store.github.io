@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { execFileSync } from 'node:child_process'
 import { fileURLToPath } from 'node:url'
+import { fetchRepositoryStats } from './repository-stats.mjs'
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const themesDir = path.join(root, 'src/content/themes')
@@ -54,6 +55,7 @@ const candidatePath = path.join(root, candidateFiles[0])
 const candidate = readTheme(candidatePath)
 candidate.status = 'published'
 candidate.catalogIndex = nextCatalogIndex(candidatePath)
+candidate.stats = await fetchRepositoryStats(candidate.repository, candidate.stats)
 
 fs.writeFileSync(candidatePath, `${JSON.stringify(candidate, null, 2)}\n`)
 console.log(`Published ${candidate.slug} with catalogIndex ${candidate.catalogIndex}.`)

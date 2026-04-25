@@ -39,6 +39,7 @@ Community submissions use the `Submit a theme` GitHub Issue Form. When a complet
 
 - create a candidate JSON entry in `src/content/themes/`;
 - download attached or linked screenshots into `public/assets/img/themes/`;
+- populate basic repository metadata such as stars, last update date, and owner avatar;
 - validate the catalog with `npm test` and `npm run build`;
 - open or update a review pull request from a `submissions/theme-<issue-number>` branch.
 

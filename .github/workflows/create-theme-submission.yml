@@ -66,6 +66,7 @@ jobs:
           ISSUE_TITLE: ${{ steps.issue.outputs.title }}
           ISSUE_AUTHOR: ${{ steps.issue.outputs.author }}
           ISSUE_BODY_FILE: issue-body.md
+          GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/create-theme-submission-from-issue.mjs
 
       - run: npm test

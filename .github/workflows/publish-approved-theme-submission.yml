@@ -39,6 +39,7 @@ jobs:
       - name: Publish candidate theme
         env:
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          GITHUB_TOKEN: ${{ github.token }}
         run: node scripts/publish-approved-theme-submission.mjs
 
       - run: npm test

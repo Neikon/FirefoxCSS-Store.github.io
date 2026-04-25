@@ -2,6 +2,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { Buffer } from 'node:buffer'
 import { fileURLToPath } from 'node:url'
+import { fetchRepositoryStats } from './repository-stats.mjs'
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const themesDir = path.join(root, 'src/content/themes')
@@ -32,6 +33,7 @@ const submitterRole = normalizeSubmitterRole(requiredField(fields, 'Your relatio
 const notes = optionalField(fields, 'Notes for reviewers')
 const slug = uniqueSlug(slugify(title))
 const submittedBy = issueAuthor.length >= 2 ? issueAuthor : null
+const repositoryStats = await fetchRepositoryStats(repository)
 
 if (title.length < 2 || title.length > 80) {
   throw new Error('Theme title must be between 2 and 80 characters.')
@@ -68,12 +70,7 @@ const theme = {
   status: 'candidate',
   catalogIndex: candidateCatalogIndex(),
   ...(submittedBy ? { submittedBy } : {}),
-  stats: {
-    stars: 0,
-    updatedAt: null,
-    ownerAvatar: null,
-    accessible: true
-  }
+  stats: repositoryStats
 }
 
 const themePath = path.join(themesDir, `${slug}.json`)
