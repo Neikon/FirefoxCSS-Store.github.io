@@ -66,7 +66,7 @@ This file stores durable project context so future conversations can resume work
 
 - Decap CMS Open Authoring may require GitHub OAuth/back-end setup before the hosted `/admin/` flow is usable in production
 - `scripts/refresh-theme-stats.mjs` uses external APIs when run manually or in future automation; it should never discover new repositories
-- `.github/workflows/audit-theme-repositories.yml` runs monthly and creates a PR when repositories should be archived or removed
+- `.github/workflows/audit-theme-repositories.yml` runs monthly and creates a PR when repositories should be archived or removed; if `GITHUB_TOKEN` is blocked from creating PRs, it still pushes the audit branch and reports a manual PR URL. Automatic PR creation requires enabling the repository's "Allow GitHub Actions to create and approve pull requests" setting or adding an `AUDIT_PR_TOKEN` secret with PR creation permission.
 - Existing legacy theme entries are marked with `submitterRole: "legacy"` because original submitter relationship is unknown
 
 ## Working Agreement For Future Sessions
