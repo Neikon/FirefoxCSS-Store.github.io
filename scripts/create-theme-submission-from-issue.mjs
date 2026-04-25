@@ -137,7 +137,7 @@ function parseUrl(value, label) {
 function extractScreenshotUrls(value) {
   const urls = new Set()
   const markdownUrl = /!?\[[^\]]*\]\((https?:\/\/[^)\s]+)(?:\s+"[^"]*")?\)/g
-  const rawUrl = /https?:\/\/[^\s<>)]+/g
+  const rawUrl = /https?:\/\/[^\s<>)"'\]]+/g
 
   for (const match of value.matchAll(markdownUrl)) {
     urls.add(cleanUrl(match[1]))
@@ -161,7 +161,11 @@ function extractScreenshotUrls(value) {
 }
 
 function cleanUrl(value) {
-  return value.trim().replace(/[.,;:]+$/, '')
+  return value
+    .trim()
+    .replace(/^["']+|["']+$/g, '')
+    .replace(/[.,;:]+$/, '')
+    .replace(/["'\]]+$/, '')
 }
 
 function normalizeTags(value) {
