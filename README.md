@@ -1,110 +1,54 @@
-<h1 align="center">FirefoxCSS-Store</h1>
-<p align="center">
-<img src="images/icon.png"><br>
-A collection site of Firefox userchrome themes, mostly from FirefoxCSS Reddit.<br><a href="https://firefoxcss-store.github.io/">Preview here.</a></p>
+# FirefoxCSS Hub
 
----
+FirefoxCSS Hub is a static community catalog for discovering and sharing Firefox `userChrome.css` themes. It does not scrape, crawl, or auto-discover themes. Every public entry points back to the original repository submitted by an author, maintainer, or community user.
 
-## Generic Installation
+## What This Project Publishes
 
-+ Go to the wanted theme and click the download button.
-+ You should now be on the Github page for that topic.
-+ Below you should see a guide on how to install that particular theme and a few preview pictures. Anyway, here are some common steps for all themes.
+- A searchable theme gallery built with Astro and TypeScript.
+- One public detail page per published theme.
+- A generated `/themes.json` endpoint for lightweight integrations.
+- A Decap CMS submission form at `/admin/` for PR-based community submissions.
+- Validation scripts that keep catalog entries structured, reviewable, and safe to publish.
 
-1. Download the theme with the big green button: "Code" >> Download.zip
-2. Open `about:config` page.
-3. A dialog will warn you, but ignore it, ~~just do it~~ press the `I accept the risk!` button.
-4. Search for these:
+## Local Development
 
-	+ **`toolkit.legacyUserProfileCustomizations.stylesheets`**
-	+ **`layers.acceleration.force-enabled`**
-	+ **`gfx.webrender.all`**
-	+ **`gfx.webrender.enabled`**
-	+ **`layout.css.backdrop-filter.enabled`**
-	+ **`svg.context-properties.content.enabled`**
-
-	Then make sure to **enable them all!**
-
-5. Go to your Firefox profile.
-
-	+ Linux - `$HOME/.mozilla/firefox/XXXXXXX.default-XXXXXX/`.
-	+ Windows - `C:\Users\<USERNAME>\AppData\Roaming\Mozilla\Firefox\Profiles\XXXXXXX.default-XXXXXX`.
-	+ macOS - `Users/<USERNAME>/Library/Application Support/Firefox/Profiles/XXXXXXX.default-XXXXXXX`.
-
-6. Create a folder and name it **`chrome`**, then assuming that you already have cloned this repo, just copy the theme to `chrome` folder.
-7. Restart Firefox.
----
-
-## Installation with Firefox Theme Installer (Independent App from this repo)
-
-If you prefer a more automated way to install themes, you can use the Firefox Theme Installer app. Follow these steps:
-
-1. Download and install the [Firefox Theme Installer](https://github.com/Hakanbaban53/firefox-theme-installer) app from releases.
-2. Open the app and select the theme you want to install.
-3. Click the "Install Theme" button.
-4. The app will automatically configure the necessary settings in `about:config` and copy the theme files to your Firefox profile.
-5. Restart Firefox to apply the new theme.
-
-This method simplifies the installation process and ensures that all required settings are correctly configured.
----
-
-## Contribution
-
-### Add your theme <3
-
-+ If you have a Github account:
-  1. Fork this repository
-  2. Look for a file called `themes.json`, open and edit it
-  3. Below the last `}` add `,` right after a copy the [code below](#code) and paste it in the file
-  4. Add the properties of your theme: **title**, **link**, **description**, **image**, **tag** (cannot be left empty), and **repository**.
-  5. **Avoid the use of escaped characters, and the order matters**
-  6. Please, do not use a very big image, preferably (650x500)
-  7. Image property:
-    - You can put an image URL
-    - Or an image file in `/images/themes/` (The file extension doesn't matter). And then reference it in your code with the following `assets/img/themes/YOUR_FILE_NAME_WITHOUT_EXTENSION.webp`
-  8. Then send it as a pull request to this repository.
-
-+ Or create an Issue:
-  1. When creating an issue, you will find a template for submitting a theme. Use that one. It's easy.
-
-+ If you have a Twitter account:
-  1. Send **at least** the following properties: **title**, **link**, **description**, **image**, **tags**, and **repository** to [@Neikon66](https://twitter.com/Neikon66). 
-
-```
-  {
-    "title": "..........",
-    "link": "..........",
-    "description": "..........",
-    "image": "..........",
-    "tags": [ "your username/name", "theme type: dark", "theme type: light", "............." ],
-    "repository": ".........."
-  }
+```sh
+npm ci
+npm test
+npm run build
+npm run dev
 ```
 
----
+## Theme Data
 
-### Contribution: themes information
+Theme entries live in `src/content/themes/*.json`. New submissions should start with:
 
-1. Install [nushell](https://www.nushell.sh/) in your machine.
-2. Generate a [Github token API](https://github.com/settings/tokens) for your account and save it;
-2. Clone the repository;
-3. In your terminal, change directory into the `/scripts/` folder.
-4. Run `nu`.
-5. Run `use sort_themes.nu`;
-6. Run `sort_themes --help` and read and understand the flags;
-7. Run `sort_themes --github YOUR_GITHUB_TOKEN`;
-8. Check if everything ran fine, if yes, replace the new generated `themes.json` file.
-9. Commit your changes.
-10. Open a pull request and send your contribution for us to review.
-11. Thank you :)
+- `status: "candidate"`
+- `submitterRole: "author"`, `"user"`, or `"maintainer"`
+- the original `repository` URL
+- at least one screenshot in `public/assets/img/themes/`
+- normalized lowercase tags
 
-**Why generate a token API for only Github?**
+Only entries with `status: "published"` are rendered in the public catalog and exported through `/themes.json`.
 
-Most themes' repositories are in Gitub, so it's pretty easy to hit the anonymous rate limit for API calls. With a token, that limit is higher, making it easier to contribute.
+## Metadata Refresh
 
----
+`npm run refresh:themes` updates only basic repository metadata for repositories already present in the catalog:
 
-<h1 align="center">What do you think =?</h1>
+- stars
+- last update date
+- owner avatar
+- accessibility status
 
-<p align="center">Feel free to send me any feedback via issue or my twitter <a href="https://twitter.com/Neikon66">@Neikon66</a>.</p>
+It does not search for new themes, crawl topics, or change editorial fields such as title, description, tags, screenshots, or publication status.
 
+## Deployment
+
+GitHub Actions validates PRs with:
+
+```sh
+npm test
+npm run build
+```
+
+The production workflow builds Astro into `dist/` and deploys that artifact to GitHub Pages. Generated site files are not committed back to the repository.

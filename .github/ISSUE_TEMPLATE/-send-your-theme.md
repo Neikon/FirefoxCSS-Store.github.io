@@ -1,33 +1,32 @@
 ---
-name: "❤  Send Your Theme"
-about: An easy way to submit your theme if you don't know how to do it via pull request.
+name: "Send Your Theme"
+about: Share a Firefox userChrome.css theme repository with the hub.
 title: "[NEWTHEME] Name of your theme"
 labels: new theme
 assignees: Neikon, BeyondMagic
 
 ---
 
-############ DELETE FROM HERE BEFORE SENDING #########
-Replace the .......... with the corresponding information. Example:
-```
-{
-		"title": "the best dark theme",
-		"link": "https://github.com/myuser/myTheme",
-		"description": "a dark theme",
-		"image": "https://raw.githubusercontent.com/previewthemepicture.png",
-		"tags": [ "John", "dark", "minimal","oneline", "............." ],
-		"repository": "https://github.com/myuser/myTheme"
-	}
-```
-################# DELETE UNTIL HERE #################
+## Theme title
 
-```
-{
-		"title": "..........",
-		"link": "..........",
-		"description": "..........",
-		"image": "..........",
-		"tags": [ "your username/name", "theme type: dark", "theme type: light", "............." ],
-		"repository": ".........."
-}
-```
+## Original repository
+
+## Short description
+
+## Screenshots
+
+Attach images or link to screenshots from the original repository.
+
+## Tags
+
+Use lowercase tags such as `dark`, `light`, `minimal`, `compact`, `sidebery`, or `oneline`.
+
+## Your relationship to the theme
+
+Choose one:
+
+- Author
+- Maintainer
+- User or recommender
+
+## Notes for reviewers

@@ -1,0 +1,29 @@
+{
+  "title": "Firefox Compact Mode",
+  "slug": "firefox-compact-mode",
+  "description": "A compact mode that follows Firefox 89 (known as Proton) design system while using the same vertical space as the compact mode in Firefox 88 (known as Photon). \n Compatibility: V91+",
+  "repository": "https://github.com/dannycolin/fx-compact-mode",
+  "screenshots": [
+    {
+      "src": "/assets/img/themes/fx-compact-mode.webp",
+      "alt": "Firefox Compact Mode screenshot"
+    }
+  ],
+  "tags": [
+    "compact",
+    "dannycolin",
+    "photon",
+    "proton",
+    "pure",
+    "v91"
+  ],
+  "submitterRole": "legacy",
+  "status": "published",
+  "catalogIndex": 45,
+  "stats": {
+    "stars": 127,
+    "updatedAt": "2021-12-11T08:15:44Z",
+    "ownerAvatar": "https://avatars.githubusercontent.com/u/7339076?v=4",
+    "accessible": true
+  }
+}

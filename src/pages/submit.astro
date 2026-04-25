@@ -1,0 +1,31 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+<BaseLayout title="Submit a Theme | FirefoxCSS Hub" description="Share a Firefox userChrome.css theme with the FirefoxCSS Hub catalog.">
+  <main class="submit-page">
+    <section class="submit-hero">
+      <p class="eyebrow">Community submissions</p>
+      <h1>Share a Firefox theme repository with the hub.</h1>
+      <p>Submissions create reviewable changes. New entries start as candidates and become public after a maintainer reviews the repository, screenshots, tags, and description.</p>
+      <div class="detail-actions">
+        <a href="/admin/">Open submission form</a>
+        <a href="https://github.com/FirefoxCSS-Store/FirefoxCSS-Store.github.io/issues/new?template=-send-your-theme.md">Use GitHub issue</a>
+      </div>
+    </section>
+
+    <section class="submission-grid" aria-label="Submission expectations">
+      <div>
+        <h2>What to submit</h2>
+        <p>Use the original repository URL, a short description, screenshots, and normalized tags. You can submit your own theme or recommend someone else's work.</p>
+      </div>
+      <div>
+        <h2>What automation does</h2>
+        <p>Automation can refresh basic repository metadata from the URL you provide, such as stars and last update. It does not discover themes or rewrite editorial content.</p>
+      </div>
+      <div>
+        <h2>Review status</h2>
+        <p>Candidate themes are kept out of the public catalog until they are reviewed and switched to published.</p>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

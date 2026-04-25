@@ -1,0 +1,30 @@
+{
+  "title": "SideFox",
+  "slug": "sidefox",
+  "description": "MS Edge style, sidebar, blur, and more.",
+  "repository": "https://github.com/rainbowflesh/Me-Personal-Firefox-Settup",
+  "screenshots": [
+    {
+      "src": "/assets/img/themes/sidefox.webp",
+      "alt": "SideFox screenshot"
+    }
+  ],
+  "tags": [
+    "animated",
+    "linux",
+    "macos",
+    "responsive",
+    "sidebar",
+    "simple",
+    "windows"
+  ],
+  "submitterRole": "legacy",
+  "status": "published",
+  "catalogIndex": 88,
+  "stats": {
+    "stars": 23,
+    "updatedAt": "2025-04-04T15:38:29Z",
+    "ownerAvatar": "https://avatars.githubusercontent.com/u/20819692?v=4",
+    "accessible": true
+  }
+}

@@ -1,0 +1,59 @@
+backend:
+  name: github
+  repo: FirefoxCSS-Store/FirefoxCSS-Store.github.io
+  branch: main
+  open_authoring: true
+
+publish_mode: editorial_workflow
+media_folder: public/assets/img/themes
+public_folder: /assets/img/themes
+
+collections:
+  - name: themes
+    label: Themes
+    folder: src/content/themes
+    create: true
+    extension: json
+    format: json
+    identifier_field: slug
+    slug: "{{slug}}"
+    summary: "{{title}}"
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Slug, name: slug, widget: string, pattern: ["^[a-z0-9]+(?:-[a-z0-9]+)*$", "Use lowercase letters, numbers, and hyphens."] }
+      - { label: Description, name: description, widget: text }
+      - { label: Original repository, name: repository, widget: string }
+      - { label: Homepage, name: homepage, widget: string, required: false }
+      - label: Screenshots
+        name: screenshots
+        widget: list
+        min: 1
+        fields:
+          - { label: Image, name: src, widget: image }
+          - { label: Alt text, name: alt, widget: string }
+      - { label: Tags, name: tags, widget: list, allow_add: true, field: { label: Tag, name: tag, widget: string } }
+      - label: Submitter role
+        name: submitterRole
+        widget: select
+        options:
+          - { label: Author, value: author }
+          - { label: User or recommender, value: user }
+          - { label: Maintainer, value: maintainer }
+      - label: Status
+        name: status
+        widget: select
+        default: candidate
+        options:
+          - { label: Candidate, value: candidate }
+          - { label: Published, value: published }
+          - { label: Archived, value: archived }
+      - { label: Catalog index, name: catalogIndex, widget: number, default: 100000, value_type: int }
+      - { label: Submitted by, name: submittedBy, widget: string, required: false }
+      - label: Repository stats
+        name: stats
+        widget: object
+        fields:
+          - { label: Stars, name: stars, widget: number, default: 0, value_type: int }
+          - { label: Updated at, name: updatedAt, widget: datetime, required: false }
+          - { label: Owner avatar, name: ownerAvatar, widget: string, required: false }
+          - { label: Accessible, name: accessible, widget: boolean, default: true }

@@ -1,0 +1,86 @@
+---
+import { getCollection } from 'astro:content'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import { formatDate, isPublishedTheme, repositoryLabel } from '../../lib/themes'
+
+export async function getStaticPaths() {
+  const themes = (await getCollection('themes')).filter(isPublishedTheme)
+
+  return themes.map((theme) => ({
+    params: { slug: theme.data.slug },
+    props: { theme }
+  }))
+}
+
+const { theme } = Astro.props
+const data = theme.data
+const repoLabel = repositoryLabel(data.repository)
+---
+<BaseLayout title={`${data.title} | FirefoxCSS Hub`} description={data.description}>
+  <main class="theme-detail">
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+      <a href="/">Themes</a>
+      <span>{data.title}</span>
+    </nav>
+
+    <section class="detail-hero">
+      <div>
+        <p class="eyebrow">Published theme</p>
+        <h1>{data.title}</h1>
+        <p>{data.description}</p>
+        <div class="detail-actions">
+          <a href={data.repository}>Open original repository</a>
+          {data.homepage && <a href={data.homepage}>Theme homepage</a>}
+        </div>
+      </div>
+      <dl class="detail-stats">
+        <div>
+          <dt>Repository</dt>
+          <dd>{repoLabel}</dd>
+        </div>
+        <div>
+          <dt>Stars</dt>
+          <dd>{data.stats.stars.toLocaleString('en')}</dd>
+        </div>
+        <div>
+          <dt>Last update</dt>
+          <dd>{formatDate(data.stats.updatedAt)}</dd>
+        </div>
+        <div>
+          <dt>Submitted as</dt>
+          <dd>{data.submitterRole}</dd>
+        </div>
+      </dl>
+    </section>
+
+    <section class="screenshot-gallery" aria-label={`${data.title} screenshots`}>
+      {data.screenshots.map((screenshot) => (
+        <img src={screenshot.src} alt={screenshot.alt} loading="lazy" />
+      ))}
+    </section>
+
+    <section class="detail-layout">
+      <div class="detail-section">
+        <h2>Tags</h2>
+        <div class="theme-tags large">
+          {data.tags.map((tag) => <span>{tag}</span>)}
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h2>Install overview</h2>
+        <ol class="install-list">
+          <li>Open the original repository and read the maintainer's installation notes.</li>
+          <li>Enable <code>toolkit.legacyUserProfileCustomizations.stylesheets</code> in <code>about:config</code>.</li>
+          <li>Create or open the <code>chrome</code> folder in your Firefox profile.</li>
+          <li>Copy the theme files requested by the original repository and restart Firefox.</li>
+        </ol>
+      </div>
+
+      <div class="detail-section notice">
+        <h2>Ownership note</h2>
+        <p>FirefoxCSS Hub indexes this submission for discovery. The code, license, support, and installation details belong to the original repository.</p>
+      </div>
+    </section>
+  </main>
+</BaseLayout>

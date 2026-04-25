@@ -1,0 +1,27 @@
+{
+  "title": "LittleFox",
+  "slug": "littlefox",
+  "description": "A minimalistic, mouse centered CSS theme for FireFox.",
+  "repository": "https://github.com/biglavis/LittleFox",
+  "screenshots": [
+    {
+      "src": "/assets/img/themes/remote-125-littlefox.webp",
+      "alt": "LittleFox screenshot"
+    }
+  ],
+  "tags": [
+    "compact",
+    "minimal",
+    "oneline",
+    "simple"
+  ],
+  "submitterRole": "legacy",
+  "status": "published",
+  "catalogIndex": 125,
+  "stats": {
+    "stars": 31,
+    "updatedAt": "2026-04-04T02:42:51Z",
+    "ownerAvatar": "https://avatars.githubusercontent.com/u/105270868?v=4",
+    "accessible": true
+  }
+}
