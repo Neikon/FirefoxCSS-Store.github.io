@@ -1,0 +1,125 @@
+name: Create Theme Submission PR
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+  workflow_dispatch:
+    inputs:
+      issue_number:
+        description: Issue number to process
+        required: true
+        type: number
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: theme-submission-${{ github.event.issue.number || inputs.issue_number }}
+  cancel-in-progress: true
+
+jobs:
+  candidate_pull_request:
+    if: ${{ github.event_name == 'workflow_dispatch' || (!github.event.issue.pull_request && contains(github.event.issue.body, '### Theme title') && contains(github.event.issue.body, '### Original repository')) }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Load issue data
+        id: issue
+        env:
+          GH_TOKEN: ${{ github.token }}
+          EVENT_ISSUE_NUMBER: ${{ github.event.issue.number }}
+          INPUT_ISSUE_NUMBER: ${{ inputs.issue_number }}
+        shell: bash
+        run: |
+          issue_number="${EVENT_ISSUE_NUMBER:-$INPUT_ISSUE_NUMBER}"
+
+          if [ -z "$issue_number" ]; then
+            echo "::error::No issue number was provided."
+            exit 1
+          fi
+
+          gh issue view "$issue_number" --json title,body,author --jq .title > issue-title.txt
+          gh issue view "$issue_number" --json title,body,author --jq .body > issue-body.md
+          gh issue view "$issue_number" --json title,body,author --jq .author.login > issue-author.txt
+
+          {
+            echo "number=$issue_number"
+            echo "title<<EOF"
+            cat issue-title.txt
+            echo "EOF"
+            echo "author=$(cat issue-author.txt)"
+          } >> "$GITHUB_OUTPUT"
+
+      - name: Generate candidate entry
+        env:
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          ISSUE_TITLE: ${{ steps.issue.outputs.title }}
+          ISSUE_AUTHOR: ${{ steps.issue.outputs.author }}
+          ISSUE_BODY_FILE: issue-body.md
+        run: node scripts/create-theme-submission-from-issue.mjs
+
+      - run: npm test
+      - run: npm run build
+
+      - name: Open or update candidate PR
+        env:
+          GH_TOKEN: ${{ secrets.SUBMISSION_PR_TOKEN || github.token }}
+          ISSUE_NUMBER: ${{ steps.issue.outputs.number }}
+          ISSUE_AUTHOR: ${{ steps.issue.outputs.author }}
+        shell: bash
+        run: |
+          branch="submissions/theme-${ISSUE_NUMBER}"
+
+          if git diff --quiet -- src/content/themes public/assets/img/themes; then
+            echo "No theme submission changes were generated."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add src/content/themes public/assets/img/themes
+          git commit -m "feat: add candidate theme from issue #${ISSUE_NUMBER}"
+          git fetch --no-tags --depth=1 origin "$branch:refs/remotes/origin/$branch" || true
+          git push --force-with-lease origin "$branch"
+
+          manual_url="https://github.com/${GITHUB_REPOSITORY}/pull/new/${branch}"
+          title="Add candidate theme from issue #${ISSUE_NUMBER}"
+
+          if pr_url="$(gh pr view "$branch" --json url --jq .url 2>/dev/null)"; then
+            gh pr edit "$branch" \
+              --title "$title" \
+              --body-file theme-submission-pr.md
+            echo "Updated theme submission PR: ${pr_url}" >> "$GITHUB_STEP_SUMMARY"
+          else
+            if pr_url="$(gh pr create \
+              --base main \
+              --head "$branch" \
+              --title "$title" \
+              --body-file theme-submission-pr.md 2>pr-create-error.txt)"; then
+              echo "Created theme submission PR: ${pr_url}" >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "::warning::The submission branch was pushed, but GitHub refused to create the PR automatically."
+              cat pr-create-error.txt
+              {
+                echo "Theme submission changes were pushed to \`${branch}\`, but the workflow token could not create the PR automatically."
+                echo ""
+                echo "Open it manually: ${manual_url}"
+                echo ""
+                echo "To allow automatic PR creation, enable **Settings > Actions > General > Workflow permissions > Allow GitHub Actions to create and approve pull requests**, or add a \`SUBMISSION_PR_TOKEN\` secret with permission to create pull requests."
+              } >> "$GITHUB_STEP_SUMMARY"
+              pr_url="$manual_url"
+            fi
+          fi
+
+          gh issue comment "$ISSUE_NUMBER" --body "Thanks @${ISSUE_AUTHOR}. I generated a candidate submission PR for review: ${pr_url}"

@@ -1,16 +1,16 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-import { withBasePath } from '../lib/themes'
+
+const themeSubmissionUrl = 'https://github.com/Neikon/FirefoxCSS-Store.github.io/issues/new?template=theme-submission.yml'
 ---
 <BaseLayout title="Submit a Theme | FirefoxCSS Hub" description="Share a Firefox userChrome.css theme with the FirefoxCSS Hub catalog.">
   <main class="submit-page">
     <section class="submit-hero">
       <p class="eyebrow">Community submissions</p>
       <h1>Share a Firefox theme repository with the hub.</h1>
-      <p>Submissions create reviewable changes. New entries start as candidates and become public after a maintainer reviews the repository, screenshots, tags, and description.</p>
+      <p>Submissions start as GitHub issues. Automation turns complete reports into candidate pull requests, and entries become public only after maintainer review.</p>
       <div class="detail-actions">
-        <a href={withBasePath('/admin/')}>Open submission form</a>
-        <a href="https://github.com/FirefoxCSS-Store/FirefoxCSS-Store.github.io/issues/new?template=-send-your-theme.md">Use GitHub issue</a>
+        <a href={themeSubmissionUrl}>Submit on GitHub</a>
       </div>
     </section>
 
@@ -21,7 +21,7 @@ import { withBasePath } from '../lib/themes'
       </div>
       <div>
         <h2>What automation does</h2>
-        <p>Automation can refresh basic repository metadata from the URL you provide, such as stars and last update. It does not discover themes or rewrite editorial content.</p>
+        <p>Automation creates a candidate JSON entry, stores submitted screenshots with the site assets, and opens a pull request for review. It does not publish themes directly.</p>
       </div>
       <div>
         <h2>Review status</h2>

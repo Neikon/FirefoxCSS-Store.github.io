@@ -33,16 +33,18 @@ This file stores durable project context so future conversations can resume work
 - Existing GitHub Actions:
 - `.github/workflows/build.yml`
 - `.github/workflows/check-themes.yml`
+- `.github/workflows/create-theme-submission.yml`
 - CI workflows now opt into Node 24 for JavaScript actions explicitly and use `actions/checkout@v6` plus `actions/setup-node@v6`
 - Build workflow runs automatically on pushes to `main` that affect Astro site/build inputs and deploys `dist/` through GitHub Pages artifacts
 - PR validation runs `npm test` and `npm run build` for site-related changes
+- Theme submission automation uses GitHub Issue Forms plus `.github/workflows/create-theme-submission.yml`; it creates candidate PRs from complete submission issues without Decap or external auth hosting
 - The build workflow syntax also requires `workflow_dispatch:` with a trailing colon; missing it makes GitHub mark the workflow file as invalid even if other checks still pass
 
 ## Repo Notes
 
 - Local `.codex` file is ignored in `.gitignore`
 - Build workflow now deploys the Astro `dist/` artifact to GitHub Pages and does not commit generated files back to the branch
-- Fork-specific values to revert before merging upstream: `astro.config.mjs` uses `site: https://neikon.github.io` and `base: /FirefoxCSS-Store.github.io`; `public/admin/config.yml` uses `backend.repo: Neikon/FirefoxCSS-Store.github.io`; `src/layouts/BaseLayout.astro` links to the fork repo
+- Fork-specific values to revert before merging upstream: `astro.config.mjs` uses `site: https://neikon.github.io` and `base: /FirefoxCSS-Store.github.io`; `src/layouts/BaseLayout.astro` links to the fork repo; `src/pages/submit.astro` links to the fork's theme submission issue form
 - Pull requests touching catalog or site files trigger validation via `npm test` and `npm run build`
 - Site pages are authored as Astro routes in `src/pages/`
 - Client behavior for catalog search/filter/sort is implemented in `src/scripts/hub.ts`
@@ -60,11 +62,11 @@ This file stores durable project context so future conversations can resume work
 - The home page renders all published theme cards statically and uses small client-side TypeScript for search, tag filters, and sorting
 - Each published theme gets a `/themes/[slug]/` detail page and the site also generates `/themes.json`
 - Archived-but-existing repositories are preserved under `/archive/` with unsupported messaging; unavailable/deleted repositories are proposed for removal by PR
-- Decap CMS config lives in `public/admin/`; new submissions should start as `candidate` and become public only after human review
+- New theme submissions come through the `Submit a theme` GitHub Issue Form; automation turns them into `candidate` PRs, and they become public only after human review
 
 ## Known Technical Risks
 
-- Decap CMS Open Authoring may require GitHub OAuth/back-end setup before the hosted `/admin/` flow is usable in production
+- Automatic submission PR creation depends on repository workflow permissions. If `GITHUB_TOKEN` cannot create PRs, the workflow still pushes `submissions/theme-<issue-number>` and reports a manual PR URL; add `SUBMISSION_PR_TOKEN` or enable GitHub Actions PR creation to make it fully automatic.
 - `scripts/refresh-theme-stats.mjs` uses external APIs when run manually or in future automation; it should never discover new repositories
 - `.github/workflows/audit-theme-repositories.yml` runs monthly and creates a PR when repositories should be archived or removed; it audits both `published` and `archived` entries, but only `published` entries are moved into the archive. If an archived entry later becomes unavailable, it is proposed for removal. If `GITHUB_TOKEN` is blocked from creating PRs, it still pushes the audit branch and reports a manual PR URL. Automatic PR creation requires enabling the repository's "Allow GitHub Actions to create and approve pull requests" setting or adding an `AUDIT_PR_TOKEN` secret with PR creation permission.
 - Existing legacy theme entries are marked with `submitterRole: "legacy"` because original submitter relationship is unknown

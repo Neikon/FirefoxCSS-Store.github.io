@@ -7,7 +7,7 @@ FirefoxCSS Hub is a static community catalog for discovering and sharing Firefox
 - A searchable theme gallery built with Astro and TypeScript.
 - One public detail page per published theme.
 - A generated `/themes.json` endpoint for lightweight integrations.
-- A Decap CMS submission form at `/admin/` for PR-based community submissions.
+- A GitHub Issue Form that collects theme submissions and opens candidate PRs through automation.
 - Validation scripts that keep catalog entries structured, reviewable, and safe to publish.
 
 ## Local Development
@@ -32,6 +32,17 @@ Theme entries live in `src/content/themes/*.json`. New submissions should start 
 Only entries with `status: "published"` are rendered in the public catalog and exported through `/themes.json`.
 
 Entries with `status: "archived"` are rendered in `/archive/` and remain available for historical discovery, but the UI marks them as unsupported. Archived entries must include `retirement` metadata with a reason, check date, and reviewer-facing details.
+
+## Theme Submissions
+
+Community submissions use the `Submit a theme` GitHub Issue Form. When a complete issue is opened or edited, `.github/workflows/create-theme-submission.yml` runs `scripts/create-theme-submission-from-issue.mjs` to:
+
+- create a candidate JSON entry in `src/content/themes/`;
+- download attached or linked screenshots into `public/assets/img/themes/`;
+- validate the catalog with `npm test` and `npm run build`;
+- open or update a review pull request from a `submissions/theme-<issue-number>` branch.
+
+The generated entry remains `status: "candidate"` until a maintainer reviews it and intentionally publishes it.
 
 ## Metadata Refresh
 
@@ -72,17 +83,17 @@ This branch is currently configured to run as a GitHub Pages project site from t
 - `astro.config.mjs`
   - `site: "https://neikon.github.io"`
   - `base: "/FirefoxCSS-Store.github.io"`
-- `public/admin/config.yml`
-  - `backend.repo: "Neikon/FirefoxCSS-Store.github.io"`
 - `src/layouts/BaseLayout.astro`
   - GitHub navigation link points to `https://github.com/Neikon/FirefoxCSS-Store.github.io`
+- `src/pages/submit.astro`
+  - submission issue link points to `https://github.com/Neikon/FirefoxCSS-Store.github.io`
 
 When this work is moved back to the original organization repository, update those values to:
 
 - `astro.config.mjs`
   - `site: "https://firefoxcss-store.github.io"`
   - remove `base` if the site is served from the domain root
-- `public/admin/config.yml`
-  - `backend.repo: "FirefoxCSS-Store/FirefoxCSS-Store.github.io"`
 - `src/layouts/BaseLayout.astro`
   - GitHub navigation link should point back to `https://github.com/FirefoxCSS-Store/FirefoxCSS-Store.github.io`
+- `src/pages/submit.astro`
+  - submission issue link should point back to `https://github.com/FirefoxCSS-Store/FirefoxCSS-Store.github.io`
