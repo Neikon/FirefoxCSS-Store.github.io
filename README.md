@@ -56,6 +56,8 @@ The generated entry remains `status: "candidate"` until a maintainer approves th
 
 It does not search for new themes, crawl topics, or change editorial fields such as title, description, tags, screenshots, or publication status.
 
+The monthly `Refresh Theme Stats` workflow runs the same refresh command and opens a review PR when stars, update dates, avatars, or accessibility values change.
+
 ## Repository Audit
 
 `npm run audit:theme-repos` checks the repositories already listed in the catalog. It does not discover new repositories.
