@@ -9,6 +9,8 @@
   --accent: #006c67;
   --accent-strong: #004f4b;
   --accent-warm: #b83f2f;
+  --archive: #8a4f00;
+  --archive-bg: #fff0d8;
   --focus: #2f6fed;
   --shadow: 0 12px 34px rgba(16, 20, 25, 0.09);
   --code-bg: #e9eef2;
@@ -28,6 +30,8 @@
     --accent: #4fc2b5;
     --accent-strong: #8be0d7;
     --accent-warm: #ff927f;
+    --archive: #ffbf6e;
+    --archive-bg: #332719;
     --focus: #7aa8ff;
     --shadow: 0 16px 36px rgba(0, 0, 0, 0.32);
     --code-bg: #26313a;
@@ -136,6 +140,10 @@ main {
   font-weight: 800;
   letter-spacing: 0;
   text-transform: uppercase;
+}
+
+.archived-label {
+  color: var(--archive);
 }
 
 h1,
@@ -456,6 +464,29 @@ select {
 
 .notice {
   border-color: color-mix(in srgb, var(--accent-warm) 50%, var(--line));
+}
+
+.archive-warning {
+  margin: 0 0 24px;
+  padding: 18px 20px;
+  border: 1px solid color-mix(in srgb, var(--archive) 55%, var(--line));
+  border-radius: var(--radius);
+  background: var(--archive-bg);
+}
+
+.archive-warning h2 {
+  margin-bottom: 8px;
+  font-size: 1.05rem;
+}
+
+.archive-warning p {
+  margin-bottom: 0;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+.archived-card {
+  border-color: color-mix(in srgb, var(--archive) 45%, var(--line));
 }
 
 code {

@@ -38,7 +38,28 @@ const themeSchema = z.object({
     updatedAt: null,
     ownerAvatar: null,
     accessible: true
-  })
+  }),
+  retirement: z.object({
+    reason: z.enum(['repository-archived', 'repository-unavailable']),
+    checkedAt: z.iso.datetime({ offset: true }),
+    details: z.string().min(2).max(240)
+  }).optional()
+}).superRefine((theme, context) => {
+  if (theme.status !== 'archived' && theme.retirement) {
+    context.addIssue({
+      code: 'custom',
+      path: ['retirement'],
+      message: 'Only archived themes may include retirement metadata'
+    })
+  }
+
+  if (theme.status === 'archived' && !theme.retirement) {
+    context.addIssue({
+      code: 'custom',
+      path: ['retirement'],
+      message: 'Archived themes must include retirement metadata'
+    })
+  }
 })
 
 const files = fs.readdirSync(themesDir).filter((file) => file.endsWith('.json')).sort()
@@ -98,8 +119,8 @@ for (const file of files) {
     }
   }
 
-  if (theme.status !== 'published' && theme.catalogIndex < 100000) {
-    errors.push(`${file}: candidates and archived themes must use catalogIndex 100000 or greater`)
+  if (theme.status === 'candidate' && theme.catalogIndex < 100000) {
+    errors.push(`${file}: candidate themes must use catalogIndex 100000 or greater`)
   }
 }
 

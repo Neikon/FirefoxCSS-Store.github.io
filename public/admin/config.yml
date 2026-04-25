@@ -57,3 +57,17 @@ collections:
           - { label: Updated at, name: updatedAt, widget: datetime, required: false }
           - { label: Owner avatar, name: ownerAvatar, widget: string, required: false }
           - { label: Accessible, name: accessible, widget: boolean, default: true }
+      - label: Retirement metadata
+        name: retirement
+        widget: object
+        required: false
+        hint: Required when status is archived.
+        fields:
+          - label: Reason
+            name: reason
+            widget: select
+            options:
+              - { label: Repository archived, value: repository-archived }
+              - { label: Repository unavailable, value: repository-unavailable }
+          - { label: Checked at, name: checkedAt, widget: datetime }
+          - { label: Details, name: details, widget: text }

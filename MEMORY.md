@@ -19,6 +19,7 @@ This file stores durable project context so future conversations can resume work
 - Build system: Astro + TypeScript
 - Theme validation script: `scripts/validate-themes.mjs`
 - Repository metadata refresh script: `scripts/refresh-theme-stats.mjs`; it only enriches repositories already present in submitted theme entries
+- Monthly repository audit script: `scripts/audit-theme-repositories.mjs`; it only checks repositories already present in submitted theme entries
 - Dev container config: `.devcontainer/devcontainer.json`
 - Devcontainer bootstrap script: `.devcontainer/post-create.sh`
 - Devcontainer automation runs `.devcontainer/post-create.sh` from `postCreateCommand` to install project dependencies after container creation/rebuild
@@ -58,12 +59,14 @@ This file stores durable project context so future conversations can resume work
 - Astro content collections validate the theme schema during build
 - The home page renders all published theme cards statically and uses small client-side TypeScript for search, tag filters, and sorting
 - Each published theme gets a `/themes/[slug]/` detail page and the site also generates `/themes.json`
+- Archived-but-existing repositories are preserved under `/archive/` with unsupported messaging; unavailable/deleted repositories are proposed for removal by PR
 - Decap CMS config lives in `public/admin/`; new submissions should start as `candidate` and become public only after human review
 
 ## Known Technical Risks
 
 - Decap CMS Open Authoring may require GitHub OAuth/back-end setup before the hosted `/admin/` flow is usable in production
 - `scripts/refresh-theme-stats.mjs` uses external APIs when run manually or in future automation; it should never discover new repositories
+- `.github/workflows/audit-theme-repositories.yml` runs monthly and creates a PR when repositories should be archived or removed
 - Existing legacy theme entries are marked with `submitterRole: "legacy"` because original submitter relationship is unknown
 
 ## Working Agreement For Future Sessions

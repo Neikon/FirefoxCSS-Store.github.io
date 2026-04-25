@@ -39,7 +39,28 @@ const themes = defineCollection({
       updatedAt: null,
       ownerAvatar: null,
       accessible: true
-    })
+    }),
+    retirement: z.object({
+      reason: z.enum(['repository-archived', 'repository-unavailable']),
+      checkedAt: z.iso.datetime({ offset: true }),
+      details: z.string().min(2).max(240)
+    }).optional()
+  }).superRefine((theme, context) => {
+    if (theme.status !== 'archived' && theme.retirement) {
+      context.addIssue({
+        code: 'custom',
+        path: ['retirement'],
+        message: 'Only archived themes may include retirement metadata'
+      })
+    }
+
+    if (theme.status === 'archived' && !theme.retirement) {
+      context.addIssue({
+        code: 'custom',
+        path: ['retirement'],
+        message: 'Archived themes must include retirement metadata'
+      })
+    }
   })
 })
 

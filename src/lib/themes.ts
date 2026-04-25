@@ -6,6 +6,14 @@ export function isPublishedTheme(theme: Theme) {
   return theme.data.status === 'published'
 }
 
+export function isArchivedTheme(theme: Theme) {
+  return theme.data.status === 'archived'
+}
+
+export function isVisibleTheme(theme: Theme) {
+  return theme.data.status === 'published' || theme.data.status === 'archived'
+}
+
 export function byLatestCatalogEntry(a: Theme, b: Theme) {
   return b.data.catalogIndex - a.data.catalogIndex
 }

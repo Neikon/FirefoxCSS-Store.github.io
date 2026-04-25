@@ -1,0 +1,67 @@
+name: Audit Theme Repositories
+
+on:
+  schedule:
+    - cron: '17 3 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: audit-theme-repositories
+  cancel-in-progress: false
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Audit published theme repositories
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          RETIREMENT_REPORT: theme-repository-audit.md
+        run: npm run audit:theme-repos
+
+      - run: npm test
+      - run: npm run build
+
+      - name: Open repository audit review PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          if git diff --quiet -- src/content/themes; then
+            echo "No theme archive or removal changes proposed."
+            exit 0
+          fi
+
+          branch="automation/theme-repository-audit-$(date -u +%Y-%m)"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -B "$branch"
+          git add src/content/themes theme-repository-audit.md
+          git commit -m "chore: propose theme repository audit changes"
+          git push --force-with-lease origin "$branch"
+
+          if gh pr view "$branch" --json number >/dev/null 2>&1; then
+            gh pr edit "$branch" \
+              --title "Review archived or unavailable theme repositories" \
+              --body-file theme-repository-audit.md
+          else
+            gh pr create \
+              --base main \
+              --head "$branch" \
+              --title "Review archived or unavailable theme repositories" \
+              --body-file theme-repository-audit.md
+          fi

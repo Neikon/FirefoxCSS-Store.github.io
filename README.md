@@ -31,6 +31,8 @@ Theme entries live in `src/content/themes/*.json`. New submissions should start 
 
 Only entries with `status: "published"` are rendered in the public catalog and exported through `/themes.json`.
 
+Entries with `status: "archived"` are rendered in `/archive/` and remain available for historical discovery, but the UI marks them as unsupported. Archived entries must include `retirement` metadata with a reason, check date, and reviewer-facing details.
+
 ## Metadata Refresh
 
 `npm run refresh:themes` updates only basic repository metadata for repositories already present in the catalog:
@@ -41,6 +43,16 @@ Only entries with `status: "published"` are rendered in the public catalog and e
 - accessibility status
 
 It does not search for new themes, crawl topics, or change editorial fields such as title, description, tags, screenshots, or publication status.
+
+## Repository Audit
+
+`npm run audit:theme-repos` checks the repositories already listed in the catalog. It does not discover new repositories.
+
+The monthly GitHub Actions workflow runs this audit and opens a review PR when it finds changes:
+
+- repositories that still exist but are archived are moved to `status: "archived"` and shown in `/archive/`;
+- repositories that return deleted, unavailable, or gone are removed from the catalog in the PR;
+- repositories that cannot be checked due to transient API errors are listed in the PR report for manual follow-up.
 
 ## Deployment
 

@@ -1,10 +1,10 @@
 ---
 import { getCollection } from 'astro:content'
 import BaseLayout from '../../layouts/BaseLayout.astro'
-import { formatDate, isPublishedTheme, repositoryLabel, withBasePath } from '../../lib/themes'
+import { formatDate, isVisibleTheme, repositoryLabel, withBasePath } from '../../lib/themes'
 
 export async function getStaticPaths() {
-  const themes = (await getCollection('themes')).filter(isPublishedTheme)
+  const themes = (await getCollection('themes')).filter(isVisibleTheme)
 
   return themes.map((theme) => ({
     params: { slug: theme.data.slug },
@@ -15,17 +15,18 @@ export async function getStaticPaths() {
 const { theme } = Astro.props
 const data = theme.data
 const repoLabel = repositoryLabel(data.repository)
+const isArchived = data.status === 'archived'
 ---
 <BaseLayout title={`${data.title} | FirefoxCSS Hub`} description={data.description}>
   <main class="theme-detail">
     <nav class="breadcrumb" aria-label="Breadcrumb">
-      <a href={withBasePath('/')}>Themes</a>
+      <a href={withBasePath(isArchived ? '/archive/' : '/')}>{isArchived ? 'Archive' : 'Themes'}</a>
       <span>{data.title}</span>
     </nav>
 
     <section class="detail-hero">
       <div>
-        <p class="eyebrow">Published theme</p>
+        <p class={isArchived ? 'eyebrow archived-label' : 'eyebrow'}>{isArchived ? 'Archived unsupported theme' : 'Published theme'}</p>
         <h1>{data.title}</h1>
         <p>{data.description}</p>
         <div class="detail-actions">
@@ -52,6 +53,13 @@ const repoLabel = repositoryLabel(data.repository)
         </div>
       </dl>
     </section>
+
+    {isArchived && (
+      <section class="archive-warning" aria-label="Archived theme warning">
+        <h2>This theme is preserved for discovery, but it is no longer supported.</h2>
+        <p>{data.retirement?.details ?? 'The original repository was marked as archived by its owner.'}</p>
+      </section>
+    )}
 
     <section class="screenshot-gallery" aria-label={`${data.title} screenshots`}>
       {data.screenshots.map((screenshot) => (
