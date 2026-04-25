@@ -324,6 +324,8 @@ function prBody({ theme, notes, issueNumber, issueAuthor, screenshotUrls }) {
 
 Generated from #${issueNumber}.
 
+Closes #${issueNumber}.
+
 - Title: ${theme.title}
 - Slug: \`${theme.slug}\`
 - Repository: ${theme.repository}

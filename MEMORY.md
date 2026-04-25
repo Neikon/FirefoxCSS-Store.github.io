@@ -35,11 +35,13 @@ This file stores durable project context so future conversations can resume work
 - `.github/workflows/check-themes.yml`
 - `.github/workflows/create-theme-submission.yml`
 - `.github/workflows/publish-approved-theme-submission.yml`
+- `.github/workflows/close-merged-theme-submission.yml`
 - CI workflows now opt into Node 24 for JavaScript actions explicitly and use `actions/checkout@v6` plus `actions/setup-node@v6`
 - Build workflow runs automatically on pushes to `main` that affect Astro site/build inputs and deploys `dist/` through GitHub Pages artifacts
 - PR validation runs `npm test` and `npm run build` for site-related changes
 - Theme submission automation uses GitHub Issue Forms plus `.github/workflows/create-theme-submission.yml`; it creates candidate PRs from complete submission issues without Decap or external auth hosting
 - Approved submission PRs are finalized by `.github/workflows/publish-approved-theme-submission.yml`, which sets `status: "published"` and assigns the next available low `catalogIndex`; maintainers still merge the PR explicitly
+- Merged submission PRs close their source issue through `.github/workflows/close-merged-theme-submission.yml`; new generated PR bodies also include `Closes #<issue>`
 - The build workflow syntax also requires `workflow_dispatch:` with a trailing colon; missing it makes GitHub mark the workflow file as invalid even if other checks still pass
 
 ## Repo Notes
