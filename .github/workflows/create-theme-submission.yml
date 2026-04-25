@@ -98,11 +98,14 @@ jobs:
           manual_url="https://github.com/${GITHUB_REPOSITORY}/pull/new/${branch}"
           title="Add candidate theme from issue #${ISSUE_NUMBER}"
 
-          if pr_url="$(gh pr view "$branch" --json url --jq .url 2>/dev/null)"; then
-            gh pr edit "$branch" \
+          open_pr_url="$(gh pr list --head "$branch" --state open --json url --jq '.[0].url // empty')"
+
+          if [ -n "$open_pr_url" ]; then
+            gh pr edit "$open_pr_url" \
               --title "$title" \
               --body-file theme-submission-pr.md
-            gh pr edit "$branch" --add-reviewer "$reviewers" || true
+            gh pr edit "$open_pr_url" --add-reviewer "$reviewers" || true
+            pr_url="$open_pr_url"
             echo "Updated theme submission PR: ${pr_url}" >> "$GITHUB_STEP_SUMMARY"
           else
             if pr_url="$(gh pr create \
