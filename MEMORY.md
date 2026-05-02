@@ -30,7 +30,7 @@ This file stores durable project context so future conversations can resume work
 
 - Active upstream pull request for the community hub: FirefoxCSS-Store/FirefoxCSS-Store.github.io#330 (`Neikon:main` -> `FirefoxCSS-Store:main`)
 - Stale fork helper branches merged into `origin/main` were deleted on 2026-05-02: `rebuild-astro-community-hub`, `codex/issue-submission-automation`, `automation/theme-repository-audit-2026-04`, `automation/theme-stats-refresh-2026-04`, and `submissions/theme-2`
-- Fork deployment config currently targets `Neikon/FirefoxCSS-Store.github.io` as a GitHub Pages project site
+- Deployment config now targets the upstream organization site: `https://firefoxcss-store.github.io` with no Astro `base`
 - Existing GitHub Actions:
 - `.github/workflows/build.yml`
 - `.github/workflows/check-themes.yml`
@@ -51,7 +51,7 @@ This file stores durable project context so future conversations can resume work
 
 - Local `.codex` file is ignored in `.gitignore`
 - Build workflow now deploys the Astro `dist/` artifact to GitHub Pages and does not commit generated files back to the branch
-- Fork-specific values to revert before merging upstream: `astro.config.mjs` uses `site: https://neikon.github.io` and `base: /FirefoxCSS-Store.github.io`; `src/layouts/BaseLayout.astro` links to the fork repo; `src/pages/submit.astro` links to the fork's theme submission issue form
+- Upstream deployment values were restored on 2026-05-02: `astro.config.mjs` uses `site: https://firefoxcss-store.github.io` with no `base`; GitHub navigation and submission links point to `FirefoxCSS-Store/FirefoxCSS-Store.github.io`
 - Pull requests touching catalog or site files trigger validation via `npm test` and `npm run build`
 - Site pages are authored as Astro routes in `src/pages/`
 - Client behavior for catalog search/filter/sort is implemented in `src/scripts/hub.ts`
