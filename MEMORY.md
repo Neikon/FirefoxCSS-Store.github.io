@@ -28,7 +28,8 @@ This file stores durable project context so future conversations can resume work
 
 ## Automation Context
 
-- Active rebuild branch for the community hub: `rebuild-astro-community-hub`
+- Active upstream pull request for the community hub: FirefoxCSS-Store/FirefoxCSS-Store.github.io#330 (`Neikon:main` -> `FirefoxCSS-Store:main`)
+- Stale fork helper branches merged into `origin/main` were deleted on 2026-05-02: `rebuild-astro-community-hub`, `codex/issue-submission-automation`, `automation/theme-repository-audit-2026-04`, `automation/theme-stats-refresh-2026-04`, and `submissions/theme-2`
 - Fork deployment config currently targets `Neikon/FirefoxCSS-Store.github.io` as a GitHub Pages project site
 - Existing GitHub Actions:
 - `.github/workflows/build.yml`
