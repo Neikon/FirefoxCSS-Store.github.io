@@ -256,7 +256,7 @@ async function downloadImage(value) {
 
   const response = await fetch(url, {
     headers: {
-      'user-agent': 'FirefoxCSS-Hub-theme-submission'
+      'user-agent': 'FirefoxCSS-Store-theme-submission'
     },
     redirect: 'follow'
   })

@@ -17,7 +17,7 @@ const data = theme.data
 const repoLabel = repositoryLabel(data.repository)
 const isArchived = data.status === 'archived'
 ---
-<BaseLayout title={`${data.title} | FirefoxCSS Hub`} description={data.description}>
+<BaseLayout title={`${data.title} | FirefoxCSS-Store`} description={data.description}>
   <main class="theme-detail">
     <nav class="breadcrumb" aria-label="Breadcrumb">
       <a href={withBasePath(isArchived ? '/archive/' : '/')}>{isArchived ? 'Archive' : 'Themes'}</a>
@@ -87,7 +87,7 @@ const isArchived = data.status === 'archived'
 
       <div class="detail-section notice">
         <h2>Ownership note</h2>
-        <p>FirefoxCSS Hub indexes this submission for discovery. The code, license, support, and installation details belong to the original repository.</p>
+        <p>FirefoxCSS-Store indexes this submission for discovery. The code, license, support, and installation details belong to the original repository.</p>
       </div>
     </section>
   </main>

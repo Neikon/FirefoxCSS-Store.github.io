@@ -1,6 +1,6 @@
-# FirefoxCSS Hub
+# FirefoxCSS-Store
 
-FirefoxCSS Hub is a static community catalog for discovering and sharing Firefox `userChrome.css` themes. It does not scrape, crawl, or auto-discover themes. Every public entry points back to the original repository submitted by an author, maintainer, or community user.
+FirefoxCSS-Store is a static community catalog for discovering and sharing Firefox `userChrome.css` themes. It does not scrape, crawl, or auto-discover themes. Every public entry points back to the original repository submitted by an author, maintainer, or community user.
 
 ## What This Project Publishes
 

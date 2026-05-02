@@ -52,6 +52,7 @@ This file stores durable project context so future conversations can resume work
 - Local `.codex` file is ignored in `.gitignore`
 - Build workflow now deploys the Astro `dist/` artifact to GitHub Pages and does not commit generated files back to the branch
 - Upstream deployment values were restored on 2026-05-02: `astro.config.mjs` uses `site: https://firefoxcss-store.github.io` with no `base`; GitHub navigation and submission links point to `FirefoxCSS-Store/FirefoxCSS-Store.github.io`
+- Project naming was kept as `FirefoxCSS-Store` on 2026-05-02; defer any visible rename to `FirefoxCSS Hub` until a later explicit decision
 - Pull requests touching catalog or site files trigger validation via `npm test` and `npm run build`
 - Site pages are authored as Astro routes in `src/pages/`
 - Client behavior for catalog search/filter/sort is implemented in `src/scripts/hub.ts`
